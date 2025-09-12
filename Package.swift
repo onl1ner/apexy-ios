@@ -20,11 +20,16 @@ let package = Package(
         .package(url: "https://github.com/Alamofire/Alamofire.git", .upToNextMajor(from: "5.2.0"))
     ],
     targets: [
+        .target(name: "Apexy"),
         .target(name: "ApexyLoader", dependencies: ["Apexy"]),
         .target(name: "ApexyAlamofire", dependencies: ["Apexy", "Alamofire"]),
-        .target(name: "ApexyURLSession", dependencies: ["Apexy"]),
-        .target(name: "Apexy"),
-        
+        .target(
+            name: "ApexyURLSession",
+            dependencies: ["Apexy"],
+            swiftSettings: [
+                .unsafeFlags(["-Onone"], .when(configuration: .release))
+            ]
+        ),
         .testTarget(name: "ApexyLoaderTests", dependencies: ["ApexyLoader"]),
         .testTarget(name: "ApexyAlamofireTests", dependencies: ["ApexyAlamofire"]),
         .testTarget(name: "ApexyURLSessionTests", dependencies: ["ApexyURLSession"]),
